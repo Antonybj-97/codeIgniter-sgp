@@ -17,9 +17,10 @@ build = [
   "php spark cache:clear",
   "php spark optimize",
   "chmod -R 775 writable",
-  "mkdir -p writable/cache writable/logs writable/session"
+  "mkdir -p writable/cache writable/logs writable/session",
+  "chmod -R 755 public"
 ]
 
 [start]
-# Usar servidor PHP embebido, Railway asigna el puerto automáticamente en $PORT
-command = "php -S 0.0.0.0:$PORT -t public"
+# Arranca PHP-FPM + Nginx
+command = "php-fpm -R -y /assets/php-fpm.conf & nginx -g 'daemon off;'"
