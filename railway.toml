@@ -1,21 +1,27 @@
-# railway.toml – CodeIgniter 4 listo para producción
+project = "mi-proyecto-ci4"
+service = "web"
 
 [build]
-builder = "nixpacks"
-buildCommand = """
-composer install --no-dev --optimize-autoloader --no-interaction
-php spark cache:clear
-php spark optimize
-chmod -R 775 writable
-mkdir -p writable/cache writable/logs writable/session
-"""
+  builder = "nixpacks"
 
-[build.environment]
-CI_ENVIRONMENT = "production"
-COMPOSER_MEMORY_LIMIT = "-1"
+[build.args]
+  # Configura PHP, Node y Composer si es necesario
+  PHP_VERSION = "8.1"
+  NODE_VERSION = "18"
+  COMPOSER_VERSION = "2"
 
-[[services]]
-type = "web"
-name = "codeigniter-app"
-healthcheckPath = "/"
-healthcheckTimeout = 30
+[build.commands]
+  # Comandos que se ejecutan durante la build
+  install = [
+    "composer install --ignore-platform-reqs"
+  ]
+  build = [
+    "php spark cache:clear",
+    "php spark optimize",
+    "chmod -R 775 writable",
+    "mkdir -p writable/cache writable/logs writable/session"
+  ]
+
+[start]
+  # Comando para iniciar Nginx + PHP-FPM
+  command = "node /assets/scripts/prestart.mjs /assets/nginx.template.conf /nginx.conf && php-fpm -y /assets/php-fpm.conf & nginx -c /nginx.conf"
