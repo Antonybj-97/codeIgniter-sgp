@@ -1,4 +1,4 @@
-# railway.toml - CodeIgniter 4 en Railway (Nixpacks)
+# railway.toml
 
 [build]
 builder = "nixpacks"
@@ -10,21 +10,9 @@ chmod -R 775 writable
 mkdir -p writable/cache writable/logs writable/session
 """
 
-[build.args]
-# Versión de PHP soportada por Railway
-NIXPACKS_PHP_VERSION = "8.2"
-
-# PHP CLI + extensiones necesarias para CodeIgniter 4
-NIXPACKS_PKGS = "php82 php82-curl php82-gd php82-mbstring php82-mysqlnd php82-zip php82-xml php82-intl unzip git"
-
 [build.environment]
-COMPOSER_MEMORY_LIMIT = "-1"
-COMPOSER_NO_INTERACTION = "1"
 CI_ENVIRONMENT = "production"
-
-[deploy]
-# Railway expone el puerto en la variable $PORT
-startCommand = "php -S 0.0.0.0:$PORT -t public"
+COMPOSER_MEMORY_LIMIT = "-1"
 
 [[services]]
 type = "web"
