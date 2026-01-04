@@ -1,4 +1,4 @@
-# railway.toml
+# railway.toml – CodeIgniter 4 listo para producción
 
 [build]
 builder = "nixpacks"
