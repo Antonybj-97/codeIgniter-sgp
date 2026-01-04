@@ -17,8 +17,6 @@ startCommand = "apache2-foreground"
 [[services]]
 type = "web"
 name = "codeigniter-app"
-
-[services]
 httpPort = 8080
 healthcheckPath = "/login"
 healthcheckTimeout = 30
