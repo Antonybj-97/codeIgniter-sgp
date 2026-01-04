@@ -1,16 +1,21 @@
 # railway.toml
 [build]
 builder = "nixpacks"
-buildCommand = "composer install --no-dev --optimize-autoloader && php spark optimize && chmod -R 775 writable/ && php spark session:migration --create"
+buildCommand = |
+  composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+  php spark cache:clear
+  php spark optimize
+  php spark session:migration --create
+  chmod -R 775 writable/
+  mkdir -p writable/cache writable/logs writable/session
 
 [build.args]
 NIXPACKS_PHP_VERSION = "8.3"
 NIXPACKS_PKGS = "php83 php83-apache2 php83-curl php83-gd php83-mbstring php83-mysqlnd php83-zip php83-xml unzip git"
 
-# Variables de entorno durante el build
 [build.environment]
 COMPOSER_MEMORY_LIMIT = "-1"
-NODE_ENV = "production"
+COMPOSER_NO_INTERACTION = "1"
 
 [deploy]
 startCommand = "apache2-foreground"
@@ -23,18 +28,3 @@ name = "codeigniter-app"
 httpPort = 8080
 healthcheckPath = "/login"
 healthcheckTimeout = 30
-
-# Opcional: Auto-scaling
-[services.autoscaling]
-min = 1
-max = 2
-cpuThreshold = 70
-memoryThreshold = 80
-
-# Si necesitas MySQL (Railway lo provee automáticamente)
-[[services]]
-type = "mysql"
-name = "mysql"
-
-[services.engine]
-version = "8.0"
