@@ -1,13 +1,16 @@
 [build]
 builder = "nixpacks"
+# El buildCommand solo debe contener tareas que no necesiten la DB
 buildCommand = """
-composer install --no-dev --optimize-autoloader --no-interaction
-php spark cache:clear
-php spark optimize
-php spark migrate
-chmod -R 775 writable
+composer install --no-dev --optimize-autoloader --no-interaction && \
+chmod -R 775 writable && \
 mkdir -p writable/cache writable/logs writable/session
 """
+
+[deploy]
+# Ejecuta las migraciones justo antes de que la app inicie
+# Esto asegura que la base de datos esté disponible
+preDeployCommand = "php spark migrate --force"
 
 [build.environment]
 CI_ENVIRONMENT = "production"
@@ -18,3 +21,4 @@ type = "web"
 name = "codeigniter-app"
 healthcheckPath = "/"
 healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
