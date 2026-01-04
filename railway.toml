@@ -1,24 +1,14 @@
-[build]
-builder = "nixpacks"
-# El buildCommand solo debe contener tareas que no necesiten la DB
-buildCommand = """
-composer install --no-dev --optimize-autoloader --no-interaction && \
-chmod -R 775 writable && \
-mkdir -p writable/cache writable/logs writable/session
-[build]
-builder = "nixpacks"
-# El buildCommand solo debe contener tareas que no necesiten la DB
-buildCommand = """
-composer install --no-dev --optimize-autoloader --no-interaction && \
-chmod -R 775 writable && \
-mkdir -p writable/cache writable/logs writable/session
-php spark migrate
-"""
+# railway.toml – CodeIgniter 4 listo para producción
 
-[deploy]
-# Ejecuta las migraciones justo antes de que la app inicie
-# Esto asegura que la base de datos esté disponible
-preDeployCommand = "php spark migrate --force"
+[build]
+builder = "nixpacks"
+buildCommand = """
+composer install --no-dev --optimize-autoloader --no-interaction
+php spark cache:clear
+php spark optimize
+chmod -R 775 writable
+mkdir -p writable/cache writable/logs writable/session
+"""
 
 [build.environment]
 CI_ENVIRONMENT = "production"
@@ -29,21 +19,3 @@ type = "web"
 name = "codeigniter-app"
 healthcheckPath = "/"
 healthcheckTimeout = 30
-restartPolicyType = "ON_FAILURE"
-"""
-
-[deploy]
-# Ejecuta las migraciones justo antes de que la app inicie
-# Esto asegura que la base de datos esté disponible
-preDeployCommand = "php spark migrate --force"
-
-[build.environment]
-CI_ENVIRONMENT = "production"
-COMPOSER_MEMORY_LIMIT = "-1"
-
-[[services]]
-type = "web"
-name = "codeigniter-app"
-healthcheckPath = "/"
-healthcheckTimeout = 30
-restartPolicyType = "ON_FAILURE"
