@@ -1,0 +1,484 @@
+/* =============================================
+   ESTILOS PARA EL SISTEMA DE CIERRE DE CUENTAS
+   Paleta: Verde (Orgánica) - Naranja (Convencional)
+   Sin colores azules
+   ============================================= */
+
+/* Tarjetas principales */
+.card-custom {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 28px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+}
+
+.card-custom:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+}
+
+/* Títulos de sección */
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: #2d3436;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #eee;
+}
+
+/* Selectores de tipo de pimienta */
+.tipo-selector {
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid transparent;
+    height: 100%;
+}
+
+.tipo-selector:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Estilos activos para selectores */
+.tipo-selector.active {
+    border-color: #2ea44f;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    box-shadow: 0 6px 18px rgba(46, 164, 79, 0.2);
+}
+
+#selector-organica.active {
+    border-color: #2ea44f;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    box-shadow: 0 6px 18px rgba(46, 164, 79, 0.2);
+}
+
+#selector-convencional.active {
+    border-color: #fd7e14;
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+    box-shadow: 0 6px 18px rgba(253, 126, 20, 0.2);
+}
+
+/* Badges para tipos */
+.badge-organica {
+    background-color: #2ea44f;
+    color: white;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+.badge-convencional {
+    background-color: #fd7e14;
+    color: white;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+/* Caja de factores de conversión */
+.factor-box {
+    background: #fff4e6;
+    border: 2px dashed #fd7e14;
+    border-radius: 12px;
+    padding: 18px;
+    margin-top: 16px;
+}
+
+.factor-box h6 {
+    color: #d35400;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+/* Tablas y tablas responsivas */
+.table-responsive {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+}
+
+.table-fixed {
+    table-layout: fixed;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2d3436;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.08);
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(248, 249, 250, 0.8);
+}
+
+.table tbody tr:last-child td {
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Inputs en tablas */
+.table td input.form-control {
+    border: 1px solid #ced4da;
+    background: #fff;
+    padding: 8px 10px;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.table td input.form-control:focus {
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(46, 164, 79, 0.2);
+    border-color: #86efac;
+    outline: none;
+}
+
+.table td input.form-control-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Campos especiales */
+.campo-calculado {
+    background-color: #f0fdf4 !important;
+    font-weight: 700;
+    color: #166534;
+    border: 1px dashed #86efac;
+    border-radius: 6px;
+}
+
+.campo-importante {
+    background-color: #fff4e6 !important;
+    border: 2px solid #fd7e14 !important;
+    font-weight: 700;
+    color: #d35400;
+    border-radius: 6px;
+}
+
+/* Estilos para diferencias */
+.diferencia-positiva {
+    background-color: #d4edda !important;
+    color: #155724 !important;
+    font-weight: bold;
+}
+
+.diferencia-negativa {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+    font-weight: bold;
+}
+
+/* Estilos para comisiones editables */
+.comision-kilo-editable {
+    background-color: #fff3cd !important;
+    border-color: #ffc107 !important;
+    font-weight: bold;
+}
+
+.comision-kilo-editable:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+}
+
+.comision-input {
+    background-color: #fff3cd !important;
+    border-color: #ffc107 !important;
+    font-weight: bold;
+}
+
+.comision-input:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+}
+
+/* Estilos para tablas de comisiones */
+.table-info {
+    background-color: #d1ecf1 !important;
+}
+
+/* Botones */
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-sm:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Input groups */
+.input-group-sm .form-control,
+.input-group-sm .input-group-text {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+}
+
+/* Totales en tfoot */
+tfoot td,
+tfoot th {
+    background-color: #e8f5e9;
+    font-weight: 700;
+    color: #166534;
+    border-top: 2px solid #dee2e6;
+}
+
+tfoot input.form-control {
+    background-color: #f0fdf4;
+    font-weight: 700;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+/* Scroll personalizado */
+.table-responsive {
+    max-height: 520px;
+    overflow-y: auto;
+}
+
+.table-responsive::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #a0d8a0;
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #7cc17c;
+}
+
+/* Botones de acción */
+.d-flex.gap-3 .btn {
+    min-width: 150px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 10px 16px;
+    transition: all 0.3s ease;
+}
+
+.d-flex.gap-3 .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Botón Previsualizar - Naranja */
+.btn-primary {
+    background-color: #fd7e14;
+    border-color: #fd7e14;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #e76b00;
+    border-color: #e76b00;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(253, 126, 20, 0.3);
+}
+
+/* Botón Generar PDF - Naranja más claro */
+.btn-info {
+    background-color: #f39c12;
+    border-color: #f39c12;
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #e08e0b;
+    border-color: #e08e0b;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(243, 156, 18, 0.3);
+}
+
+/* Botón Guardar - Verde */
+.btn-success {
+    background-color: #2ea44f;
+    border-color: #2ea44f;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #2a9d4a;
+    border-color: #2a9d4a;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(46, 164, 79, 0.3);
+}
+
+/* Botón Warning - Amarillo/Naranja */
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.btn-warning:hover {
+    background-color: #ffca2c;
+    border-color: #ffca2c;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(255, 193, 7, 0.3);
+}
+
+/* Botones Outline */
+.btn-outline-success {
+    color: #2ea44f;
+    border-color: #2ea44f;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success.active {
+    background-color: #2ea44f;
+    color: white;
+    border-color: #2ea44f;
+}
+
+.btn-outline-primary {
+    color: #fd7e14;
+    border-color: #fd7e14;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary.active {
+    background-color: #fd7e14;
+    color: white;
+    border-color: #fd7e14;
+}
+
+/* Botón Secundario */
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5c636a;
+    border-color: #565e64;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(108, 117, 125, 0.3);
+}
+
+/* Botón de eliminar */
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #bb2d3b;
+    border-color: #b02a37;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Alertas */
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+.alert-info .bi-info-circle {
+    color: #0dcaf0;
+}
+
+/* Espaciado y utilidades */
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.mt-3 {
+    margin-top: 1rem !important;
+}
+
+.mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+.gap-2 {
+    gap: 0.5rem !important;
+}
+
+.gap-3 {
+    gap: 1rem !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-custom {
+        padding: 16px;
+        margin-bottom: 20px;
+    }
+    
+    .section-title {
+        font-size: 1.1rem;
+    }
+    
+    .d-flex.gap-3 .btn {
+        min-width: 120px;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .table-responsive {
+        max-height: 400px;
+    }
+}
+
+/* Estilos específicos para convencional */
+#subtitulo-tipo.badge-convencional {
+    background-color: #fd7e14;
+}
+
+#factores-conversion {
+    background-color: rgba(253, 126, 20, 0.05);
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+/* Ajustes para el botón de generación de PDF */
+#btn-generar-pdf {
+    background-color: #f39c12;
+    border-color: #f39c12;
+}
+
+#btn-generar-pdf:hover {
+    background-color: #e08e0b;
+    border-color: #e08e0b;
+}
+
+/* Botón de previsualización */
+#btn-previsualizar {
+    background-color: #fd7e14;
+    border-color: #fd7e14;
+}
+
+#btn-previsualizar:hover {
+    background-color: #e76b00;
+    border-color: #e76b00;
+}

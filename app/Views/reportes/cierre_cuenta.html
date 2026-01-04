@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de Cierre de Cuentas - Cooperativa Maseual Xicaulis</title>
+<style>
+:root {
+    --primary-color: #2c5f2d;
+    --secondary-color: #97bc62;
+    --accent-color: #f0f7ee;
+    --border-color: #c8c8c8;
+    --text-color: #333;
+    --header-bg: #f8f9fa;
+    --error-color: #e74c3c;
+    --success-color: #27ae60;
+}
+* { box-sizing: border-box; margin:0; padding:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+body { background-color:#f5f5f5; padding:20px; line-height:1.6; color:var(--text-color);}
+.container { max-width:1000px; margin:0 auto; background:white; box-shadow:0 0 20px rgba(0,0,0,0.1); border-radius:8px; overflow:hidden;}
+.header { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color:white; padding:25px 20px; text-align:center; border-bottom:5px solid var(--secondary-color);}
+.header h1 { font-size:28px; margin-bottom:10px;}
+.header p { font-size:16px; opacity:0.9;}
+.form-container { padding:30px;}
+.form-section { margin-bottom:30px; padding:20px; border:1px solid var(--border-color); border-radius:5px; background-color: var(--header-bg);}
+.form-section h2 { color:var(--primary-color); margin-bottom:20px; padding-bottom:10px; border-bottom:2px solid var(--secondary-color);}
+.form-group { margin-bottom:20px;}
+.form-row { display:flex; flex-wrap:wrap; gap:20px; margin-bottom:15px;}
+.form-column { flex:1; min-width:200px;}
+label { display:block; margin-bottom:8px; font-weight:600; color:var(--primary-color);}
+input, select, textarea { width:100%; padding:12px; border:1px solid var(--border-color); border-radius:4px; font-size:16px; transition:border-color 0.3s;}
+input:focus, select:focus, textarea:focus { outline:none; border-color:var(--secondary-color); box-shadow:0 0 0 2px rgba(151,188,98,0.2);}
+.btn { padding:12px 24px; border:none; border-radius:4px; font-size:16px; font-weight:600; cursor:pointer; transition:all 0.3s;}
+.btn-primary { background-color:var(--primary-color); color:white;}
+.btn-primary:hover { background-color:#235023;}
+.btn-secondary { background-color:#6c757d; color:white;}
+.btn-secondary:hover { background-color:#545b62;}
+.btn-success { background-color:var(--success-color); color:white;}
+.btn-success:hover { background-color:#219653;}
+.form-actions { display:flex; justify-content:space-between; margin-top:30px; padding-top:20px; border-top:1px solid var(--border-color);}
+.table-container { overflow-x:auto; margin-top:15px;}
+table { width:100%; border-collapse:collapse; margin-bottom:15px;}
+th, td { border:1px solid var(--border-color); padding:10px; text-align:left;}
+th { background-color:var(--header-bg); color:var(--primary-color); font-weight:600;}
+.add-row-btn { background-color: var(--secondary-color); color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer; margin-bottom:15px;}
+.remove-row-btn { background-color: var(--error-color); color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;}
+.alert { padding:15px; margin-bottom:20px; border-radius:4px;}
+.alert-success { background-color:#d4edda; color:#155724; border:1px solid #c3e6cb;}
+.alert-error { background-color:#f8d7da; color:#721c24; border:1px solid #f5c6cb;}
+.hidden { display:none;}
+@media(max-width:768px){
+    .form-row { flex-direction:column; gap:10px;}
+    .form-actions { flex-direction:column; gap:10px;}
+    .btn { width:100%;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>COOPERATIVA MASEUAL XICAULIS S.C.L.</h1>
+<p>Formulario de Cierre de Cuentas - Acopiadores de Pimienta</p>
+</div>
+
+<div class="form-container">
+<div id="alert-message" class="alert hidden"></div>
+
+<form id="cierre-cuenta-form">
+<!-- Sección 1: Información General -->
+<div class="form-section">
+<h2>I. INFORMACIÓN GENERAL</h2>
+<div class="form-row">
+<div class="form-column">
+<label for="centro">Centro</label>
+<select id="centro" name="centro" required>
+    <option value="">Seleccione un centro</option>
+    <?php foreach($centros as $centro): ?>
+        <option value="<?= $centro['id'] ?>"><?= $centro['nombre'] ?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+<div class="form-column">
+<label for="fecha">Fecha de Cierre</label>
+<input type="date" id="fecha" name="fecha" required>
+</div>
+</div>
+
+<div class="form-row">
+<div class="form-column">
+<label for="acopiador">Acopiador</label>
+<input type="text" id="acopiador" name="acopiador" placeholder="Nombre completo del acopiador" required>
+</div>
+<div class="form-column">
+<label for="cosecha">Cosecha</label>
+<input type="text" id="cosecha" name="cosecha" value="2025" required>
+</div>
+</div>
+</div>
+
+<!-- Sección 2: Resumen Financiero -->
+<div class="form-section">
+<h2>II. RESUMEN FINANCIERO</h2>
+<div class="form-row">
+<div class="form-column">
+<label for="dinero-entregado">Dinero entregado por supervisor</label>
+<input type="number" id="dinero-entregado" name="dinero-entregado" step="0.01" min="0" required>
+</div>
+<div class="form-column">
+<label for="otros-cargos">Otros cargos (naylo, basura, etc.)</label>
+<input type="number" id="otros-cargos" name="otros-cargos" step="0.01" min="0" value="0">
+</div>
+</div>
+
+<div class="form-row">
+<div class="form-column">
+<label for="dinero-comprobado">Dinero comprobado en pimienta acopiada</label>
+<input type="number" id="dinero-comprobado" name="dinero-comprobado" step="0.01" min="0" required>
+</div>
+</div>
+</div>
+
+div class="form-row">
+<div class="form-column">
+<label for="dinero-comprobado">Saldo de dinero del acopiador</label>
+<input type="number" id="saldo-acopiado" name="saldo-acopiado" step="dinero-comprobado"-"dinero-entregado"="saldo-acopiado"   min="0" required>
+</div>
+</div>
+</div>
+
+<!-- Sección 3: Pimienta Acopiada -->
+<div class="form-section">
+<h2>III. PIMIENTA ACOPIADA</h2>
+
+<!-- Pimienta con Rama -->
+<h3>Pimienta con Rama</h3>
+<button type="button" class="add-row-btn" id="add-con-rama">+ Agregar Fila</button>
+<div class="table-container">
+<table id="tabla-con-rama">
+<thead>
+<tr>
+<th>Precio ($)</th>
+<th>Kilos</th>
+<th>Importe ($)</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><input type="number" name="precio-con-rama[]" step="0.01" min="0"></td>
+<td><input type="number" name="kilos-con-rama[]" step="0.1" min="0"></td>
+<td><input type="number" name="importe-con-rama[]" step="0.01" min="0" readonly value="0.00"></td>
+<td><button type="button" class="remove-row-btn">Eliminar</button></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td colspan="2" style="text-align:right; font-weight:bold;">Total Con Rama:</td>
+<td><input type="number" id="total-con-rama" readonly value="0.00"></td>
+<td></td>
+</tr>
+</tfoot>
+</table>
+</div>
+
+<!-- Pimienta Verde -->
+<h3>Pimienta Verde</h3>
+<button type="button" class="add-row-btn" id="add-verde">+ Agregar Fila</button>
+<div class="table-container">
+<table id="tabla-verde">
+<thead>
+<tr>
+<th>Precio ($)</th>
+<th>Kilos</th>
+<th>Importe ($)</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><input type="number" name="precio-verde[]" step="0.01" min="0"></td>
+<td><input type="number" name="kilos-verde[]" step="0.1" min="0"></td>
+<td><input type="number" name="importe-verde[]" step="0.01" min="0" readonly value="0.00"></td>
+<td><button type="button" class="remove-row-btn">Eliminar</button></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td colspan="2" style="text-align:right; font-weight:bold;">Total Verde:</td>
+<td><input type="number" id="total-verde" readonly value="0.00"></td>
+<td></td>
+</tr>
+</tfoot>
+</table>
+</div>
+
+<!-- Pimienta Seca -->
+<h3>Pimienta Seca</h3>
+<button type="button" class="add-row-btn" id="add-seca">+ Agregar Fila</button>
+<div class="table-container">
+<table id="tabla-seca">
+<thead>
+<tr>
+<th>Precio ($)</th>
+<th>Kilos</th>
+<th>Importe ($)</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><input type="number" name="precio-seca[]" step="0.01" min="0"></td>
+<td><input type="number" name="kilos-seca[]" step="0.1" min="0"></td>
+<td><input type="number" name="importe-seca[]" step="0.01" min="0" readonly value="0.00"></td>
+<td><button type="button" class="remove-row-btn">Eliminar</button></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td colspan="2" style="text-align:right; font-weight:bold;">Total Seca:</td>
+<td><input type="number" id="total-seca" readonly value="0.00"></td>
+<td></td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+
+<!-- Sección 4: Comisiones -->
+<div class="form-section">
+<h2>IV. COMISIONES POR PAGAR</h2>
+<div class="form-column"></div>
+<div class="form-column">
+<label for="comision-con-rama">Comisión por pimienta con rama ($/kg)</label>
+<input type="number" id="comision-con-rama" name="comision-con-rama" step="0.01" min="0" value="0.50">
+</div>
+<div class="form-column">
+<label for="comision-verde">Comisión por pimienta verde ($/kg)</label>
+<input type="number" id="comision-verde" name="comision-verde" step="0.01" min="0" value="0.00">
+</div>
+</div>
+<div class="form-row">
+<div class="form-column">
+<label for="comision-seca">Comisión por pimienta seca ($/kg)</label>
+<input type="number" id="comision-seca" name="comision-seca" step="0.01" min="0" value="0.30">
+</div>
+<div class="form-column">
+<label for="comision-beneficio">Comisión por beneficio ($/kg)</label>
+<input type="number" id="comision-beneficio" name="comision-beneficio" step="0.01" min="0" value="1.00">
+</div>
+</div>
+<div class="form-row">
+<div class="form-column">
+<label for="comision-rendimiento">Comisión por rendimiento bajo ($/kg)</label>
+<input type="number" id="comision-rendimiento" name="comision-rendimiento" step="0.01" min="0" value="0.20">
+</div>
+<div class="form-column">
+<label for="comision-fecha">Comisión por cierre temprano ($/kg)</label>
+<input type="number" id="comision-fecha" name="comision-fecha" step="0.01" min="0" value="0.10">
+</div>
+</div>
+</div>
+
+<!-- Sección 5: Firmas -->
+<div class="form-section">
+<h2>V. FIRMAS Y AUTORIZACIONES</h2>
+<div class="form-row">
+<div class="form-column">
+<label for="elaboro">Elaborado por</label>
+<input type="text" id="elaboro" name="elaboro" placeholder="Nombre completo" required>
+</div>
+<div class="form-column">
+<label for="cargo-elaboro">Cargo</label>
+<input type="text" id="cargo-elaboro" name="cargo-elaboro" value="Administración" required>
+</div>
+</div>
+
+<div class="form-row">
+<div class="form-column">
+<label for="autorizo">Autorizado por</label>
+<input type="text" id="autorizo" name="autorizo" placeholder="Nombre completo" required>
+</div>
+<div class="form-column">
+<label for="cargo-autorizo">Cargo</label>
+<input type="text" id="cargo-autorizo" name="cargo-autorizo" value="Supervisor" required>
+</div>
+</div>
+
+<div class="form-row">
+<div class="form-column">
+<label for="conformidad">Conformidad del acopiador</label>
+<input type="text" id="conformidad" name="conformidad" placeholder="Nombre completo" required>
+</div>
+</div>
+</div>
+
+<!-- Botones de acción -->
+<div class="form-actions">
+<button type="button" class="btn btn-secondary" id="btn-limpiar">Limpiar Formulario</button>
+<button type="button" class="btn btn-primary" id="btn-previsualizar">Previsualizar</button>
+<button type="submit" class="btn btn-success" id="btn-guardar">Guardar Cierre de Cuenta</button>
+<button type="button" class="btn btn-success" id="btn-cierre">Cierre de Cuentas</button>
+</div>
+</form>
+</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('fecha').value = today;
+
+    const tables = {
+        'add-con-rama':'tabla-con-rama',
+        'add-verde':'tabla-verde',
+        'add-seca':'tabla-seca'
+    };
+
+    function actualizarTotales() {
+        const tipos = ['con-rama','verde','seca'];
+        tipos.forEach(tipo=>{
+            const table = document.getElementById('tabla-' + tipo).querySelector('tbody');
+            let total = 0;
+            table.querySelectorAll(`input[name^="importe-${tipo}"]`).forEach(input=>{
+                total += parseFloat(input.value)||0;
+            });
+            document.getElementById('total-' + tipo).value = total.toFixed(2);
+        });
+    }
+
+    function addTableRow(tableId){
+        const table = document.getElementById(tableId);
+        const row = table.insertRow();
+        let prefix='';
+        if(tableId==='tabla-con-rama') prefix='con-rama';
+        else if(tableId==='tabla-verde') prefix='verde';
+        else if(tableId==='tabla-seca') prefix='seca';
+        row.innerHTML=`
+        <td><input type="number" name="precio-${prefix}[]" step="0.01" min="0"></td>
+        <td><input type="number" name="kilos-${prefix}[]" step="0.1" min="0"></td>
+        <td><input type="number" name="importe-${prefix}[]" step="0.01" min="0" readonly value="0.00"></td>
+        <td><button type="button" class="remove-row-btn">Eliminar</button></td>
+        `;
+    }
+
+    Object.keys(tables).forEach(btnId=>{
+        document.getElementById(btnId).addEventListener('click', ()=>{
+            addTableRow(tables[btnId]);
+            actualizarTotales();
+        });
+    });
+
+    document.addEventListener('click', function(e){
+        if(e.target.classList.contains('remove-row-btn')){
+            const row = e.target.closest('tr');
+            if(row && row.parentElement.rows.length>1) row.remove();
+            actualizarTotales();
+        }
+    });
+
+    document.addEventListener('input', function(e){
+        if(e.target.name.includes('precio-') || e.target.name.includes('kilos-')){
+            const row = e.target.closest('tr');
+            const prefix = e.target.name.split('-')[1].split('[')[0];
+            const precio = parseFloat(row.querySelector(`input[name^="precio-${prefix}"]`).value)||0;
+            const kilos = parseFloat(row.querySelector(`input[name^="kilos-${prefix}"]`).value)||0;
+            row.querySelector(`input[name^="importe-${prefix}"]`).value = (precio*kilos).toFixed(2);
+            actualizarTotales();
+        }
+    });
+
+    document.getElementById('btn-limpiar').addEventListener('click', function(){
+        if(confirm('¿Está seguro de que desea limpiar todo el formulario?')){
+            document.getElementById('cierre-cuenta-form').reset();
+            document.getElementById('fecha').value = today;
+            ['tabla-con-rama','tabla-verde','tabla-seca'].forEach(tableId=>{
+                const table = document.getElementById(tableId);
+                while(table.rows.length>1) table.deleteRow(1);
+                table.querySelectorAll('input').forEach(input=>{
+                    if(input.readOnly) input.value='0.00';
+                    else input.value='';
+                });
+            });
+            showAlert('Formulario limpiado correctamente','success');
+        }
+    });
+
+    document.getElementById('btn-previsualizar').addEventListener('click', function(){
+        if(validateForm()){
+            showAlert('Generando previsualización...','success');
+            setTimeout(()=>showAlert('Previsualización generada correctamente.','success'),1000);
+        }
+    });
+
+    document.getElementById('cierre-cuenta-form').addEventListener('submit', function(e){
+        e.preventDefault();
+        if(validateForm()){
+            showAlert('Procesando cierre de cuenta...','success');
+            setTimeout(()=>showAlert('Cierre de cuenta guardado correctamente.','success'),1000);
+        }
+    });
+
+    function validateForm(){
+        const required = document.querySelectorAll('input[required], select[required]');
+        let valid=true;
+        required.forEach(f=>{
+            if(!f.value.trim()){ f.style.borderColor='var(--error-color)'; valid=false;}
+            else f.style.borderColor='';
+        });
+        if(!valid) showAlert('Por favor, complete todos los campos obligatorios.','error');
+        return valid;
+    }
+
+    function showAlert(message,type){
+        const alertDiv=document.getElementById('alert-message');
+        alertDiv.textContent=message;
+        alertDiv.className=`alert alert-${type}`;
+        alertDiv.classList.remove('hidden');
+        setTimeout(()=>alertDiv.classList.add('hidden'),5000);
+    }
+});
+</script>
+</body>
+</html>
