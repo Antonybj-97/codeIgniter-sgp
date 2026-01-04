@@ -3,9 +3,6 @@
 use CodeIgniter\Boot;
 use Config\Paths;
 
-// --------------------------------------------------------------------
-// CHECK PHP VERSION
-// --------------------------------------------------------------------
 $minPhpVersion = '8.1';
 if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
     header('HTTP/1.1 503 Service Unavailable', true, 503);
@@ -16,27 +13,17 @@ if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
     ));
 }
 
-// --------------------------------------------------------------------
-// SET THE FRONT CONTROLLER PATH
-// --------------------------------------------------------------------
 define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 if (getcwd() . DIRECTORY_SEPARATOR !== FCPATH) {
     chdir(FCPATH);
 }
 
-// --------------------------------------------------------------------
-// LOAD PATHS CONFIG
-// --------------------------------------------------------------------
-// Asegúrate de que app/ y system/ estén al mismo nivel que public/
+// Carga Paths.php desde app/Config
 require FCPATH . '../app/Config/Paths.php';
 $paths = new \Config\Paths();
 
-// --------------------------------------------------------------------
-// LOAD THE FRAMEWORK BOOTSTRAP
-// --------------------------------------------------------------------
+// Carga el núcleo de CI4
 require $paths->systemDirectory . '/Boot.php';
 
-// --------------------------------------------------------------------
-// START APPLICATION
-// --------------------------------------------------------------------
+// Inicia la aplicación
 exit(Boot::bootWeb($paths));
