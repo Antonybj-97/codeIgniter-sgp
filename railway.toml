@@ -1,5 +1,3 @@
-# railway.toml – CodeIgniter 4 en Railway (estable)
-
 [build]
 builder = "nixpacks"
 buildCommand = """
