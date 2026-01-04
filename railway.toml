@@ -1,11 +1,21 @@
+# railway.toml - CONFIGURACIÓN PARA CODEIGNITER 4 EN RAILWAY
 [build]
 builder = "nixpacks"
-buildCommand = "composer install --no-dev --optimize-autoloader --no-interaction --no-progress && php spark optimize"
+buildCommand = |
+  composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+  php spark cache:clear
+  php spark optimize
+  php spark session:migration --create
+  chmod -R 775 writable/
+  mkdir -p writable/cache writable/logs writable/session
+
+[build.args]
+NIXPACKS_PHP_VERSION = "8.2"  # Cambié a 8.2 porque es más estable en Railway
+NIXPACKS_PKGS = "php82 php82-apache2 libapache2-mod-php82 php82-curl php82-gd php82-mbstring php82-mysqlnd php82-zip php82-xml php82-intl unzip git libfreetype6-dev libjpeg-dev libpng-dev"
 
 [build.environment]
-COMPOSER_ALLOW_SUPERUSER = "1"
-COMPOSER_NO_INTERACTION = "1"
 COMPOSER_MEMORY_LIMIT = "-1"
+COMPOSER_NO_INTERACTION = "1"
 
 [deploy]
 startCommand = "apache2-foreground"
@@ -13,6 +23,8 @@ startCommand = "apache2-foreground"
 [[services]]
 type = "web"
 name = "codeigniter-app"
+
+[services]
 httpPort = 443
 healthcheckPath = "/login"
 healthcheckTimeout = 30
