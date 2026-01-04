@@ -25,5 +25,5 @@ startCommand = "php -S 0.0.0.0:$PORT -t public"
 [[services]]
 type = "web"
 name = "codeigniter-app"
-healthcheckPath = "/login"
+healthcheckPath = "/"
 healthcheckTimeout = 30
