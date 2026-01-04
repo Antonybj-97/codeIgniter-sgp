@@ -1,4 +1,4 @@
-# railway.toml – CodeIgniter 4 (Railway compatible)
+# railway.toml – CodeIgniter 4 en Railway (estable)
 
 [build]
 builder = "nixpacks"
