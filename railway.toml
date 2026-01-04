@@ -1,7 +1,8 @@
 # railway.toml
+
 [build]
 builder = "nixpacks"
-buildCommand = "php -v && composer install --no-dev --optimize-autoloader --no-interaction --no-progress && php spark cache:clear && php spark optimize && php spark session:migration --create && chmod -R 775 writable/ && mkdir -p writable/cache writable/logs writable/session"
+buildCommand = "php -v && composer install --no-dev --optimize-autoloader --no-interaction --no-progress && php spark cache:clear && php spark optimize && php spark session:migration --create && chmod -R 775 writable/"
 
 [build.environment]
 COMPOSER_MEMORY_LIMIT = "-1"
@@ -14,6 +15,6 @@ startCommand = "apache2-foreground"
 [[services]]
 type = "web"
 name = "codeigniter-app"
-httpPort = 8080
+httpPort = 443
 healthcheckPath = "/login"
 healthcheckTimeout = 30
