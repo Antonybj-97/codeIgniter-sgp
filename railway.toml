@@ -6,6 +6,7 @@ buildCommand = """
 composer install --no-dev --optimize-autoloader --no-interaction
 php spark cache:clear
 php spark optimize
+find . -type f -iname "dockerfile"
 chmod -R 775 writable
 mkdir -p writable/cache writable/logs writable/session
 """
