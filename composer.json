@@ -1,26 +1,19 @@
 {
-    "name": "codeigniter4/appstarter",
-    "description": "CodeIgniter4 starter app",
-    "license": "MIT",
+    "name": "tu-proyecto/codeigniter",
+    "description": "CodeIgniter 4 Application",
     "type": "project",
-    "homepage": "https://codeigniter.com",
-    "support": {
-        "forum": "https://forum.codeigniter.com/",
-        "source": "https://github.com/codeigniter4/CodeIgniter4",
-        "slack": "https://codeigniterchat.slack.com"
-    },
     "require": {
         "php": "^8.1",
-        "codeigniter4/framework": "^4.0",
-        "dompdf/dompdf": "^3.1",
-        "myth/auth": "^1.2",
-        "phpoffice/phpspreadsheet": "^1.29",
-        "tecnickcom/tcpdf": "^6.10"
+        "codeigniter4/framework": "^4.4",
+        "dompdf/dompdf": "^3.0",
+        "phpoffice/phpspreadsheet": "^5.0",
+        "myth/auth": "^1.0",
+        "tecnickcom/tcpdf": "^6.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",
         "mikey179/vfsstream": "^1.6",
-        "phpunit/phpunit": "^10.5.16"
+        "phpunit/phpunit": "^9.1"
     },
     "autoload": {
         "psr-4": {
@@ -31,17 +24,12 @@
             "**/Database/Migrations/**"
         ]
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\Support\\": "tests/_support"
-        }
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
     "scripts": {
+        "post-update-cmd": [
+            "php spark optimize"
+        ],
         "test": "phpunit"
-    }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
