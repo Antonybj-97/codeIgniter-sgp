@@ -1,11 +1,9 @@
-# railway.toml
 [build]
 builder = "nixpacks"
 buildCommand = "composer install --no-dev --optimize-autoloader --no-interaction --no-progress && php spark cache:clear && php spark optimize && php spark session:migration --create && chmod -R 775 writable/ && mkdir -p writable/cache writable/logs writable/session"
 
 [build.args]
 NIXPACKS_PHP_VERSION = "8.3"
-NIXPACKS_PKGS = "php83 php83-apache2 php83-curl php83-gd php83-mbstring php83-mysqlnd php83-zip php83-xml unzip git"
 
 [build.environment]
 COMPOSER_MEMORY_LIMIT = "-1"
