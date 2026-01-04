@@ -1,13 +1,7 @@
 # railway.toml
 [build]
 builder = "nixpacks"
-buildCommand = |
-  composer install --no-dev --optimize-autoloader --no-interaction --no-progress
-  php spark cache:clear
-  php spark optimize
-  php spark session:migration --create
-  chmod -R 775 writable/
-  mkdir -p writable/cache writable/logs writable/session
+buildCommand = "composer install --no-dev --optimize-autoloader --no-interaction --no-progress && php spark cache:clear && php spark optimize && php spark session:migration --create && chmod -R 775 writable/ && mkdir -p writable/cache writable/logs writable/session"
 
 [build.args]
 NIXPACKS_PHP_VERSION = "8.3"
