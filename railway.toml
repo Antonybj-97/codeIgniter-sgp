@@ -6,3 +6,13 @@ buildCommand = "composer install --no-dev --optimize-autoloader --no-interaction
 COMPOSER_ALLOW_SUPERUSER = "1"
 COMPOSER_NO_INTERACTION = "1"
 COMPOSER_MEMORY_LIMIT = "-1"
+
+[deploy]
+startCommand = "apache2-foreground"
+
+[[services]]
+type = "web"
+name = "codeigniter-app"
+httpPort = 443
+healthcheckPath = "/login"
+healthcheckTimeout = 30
