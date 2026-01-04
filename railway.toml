@@ -2,26 +2,26 @@ project = "mi-proyecto-ci4"
 service = "web"
 
 [build]
-  builder = "nixpacks"
+builder = "nixpacks"
 
 [build.args]
-  # Configura PHP, Node y Composer si es necesario
-  PHP_VERSION = "8.1"
-  NODE_VERSION = "18"
-  COMPOSER_VERSION = "2"
+PHP_VERSION = "8.1"
+NODE_VERSION = "18"
+COMPOSER_VERSION = "2"
 
 [build.commands]
-  # Comandos que se ejecutan durante la build
-  install = [
-    "composer install --ignore-platform-reqs"
-  ]
-  build = [
-    "php spark cache:clear",
-    "php spark optimize",
-    "chmod -R 775 writable",
-    "mkdir -p writable/cache writable/logs writable/session"
-  ]
+install = [
+  # Instala dependencias PHP
+  "composer install --ignore-platform-reqs"
+]
+build = [
+  # Optimiza CI4 y permisos
+  "php spark cache:clear",
+  "php spark optimize",
+  "chmod -R 775 writable",
+  "mkdir -p writable/cache writable/logs writable/session"
+]
 
 [start]
-  # Comando para iniciar Nginx + PHP-FPM
-  command = "node /assets/scripts/prestart.mjs /assets/nginx.template.conf /nginx.conf && php-fpm -y /assets/php-fpm.conf & nginx -c /nginx.conf"
+# Servidor PHP embebido (Railway espera que la app escuche en $PORT)
+command = "php -S 0.0.0.0:$PORT -t public"
