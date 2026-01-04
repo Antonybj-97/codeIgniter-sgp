@@ -12,41 +12,35 @@ class Home extends BaseController
     // =====================================================
     public function index()
     {
-        // Redirige automáticamente a la página de login
         return redirect()->to('/login');
     }
-    
+
     // =====================================================
     // PÁGINAS PÚBLICAS (accesibles sin login)
     // =====================================================
     public function reglamento()
     {
-        // Si quieres que esta página sea pública, déjala así
-        return view('reglamento'); // Asegúrate de tener esta vista
+        return view('reglamento'); // Debes tener app/Views/reglamento.php
     }
-    
+
     public function servicios()
     {
-        return view('servicios'); // Asegúrate de tener esta vista
+        return view('servicios'); // Debes tener app/Views/servicios.php
     }
-    
+
     public function acercade()
     {
-        return view('acercade'); // Asegúrate de tener esta vista
+        return view('acercade'); // Debes tener app/Views/acercade.php
     }
-    
+
     // =====================================================
-    // DASHBOARD - MOVER A AuthController (RECOMENDADO)
+    // DASHBOARD - SOLO PARA USUARIOS LOGUEADOS
     // =====================================================
     public function dashboard()
     {
-        // Esta función debería estar en AuthController o DashboardController
-        // Por ahora la dejamos aquí pero con validación de sesión
-        
         $session = session();
 
-        // === Validar sesión ===
-        if ($session->get('isLoggedIn') !== true) {
+        if (!$session->get('isLoggedIn')) {
             return redirect()->to('/login')
                 ->with('error', 'Debes iniciar sesión para acceder al dashboard');
         }
@@ -54,19 +48,23 @@ class Home extends BaseController
         $loteEntradaModel = new LoteEntradaModel();
         $loteSalidaModel  = new LoteSalidaModel();
 
-        // === Filtros de mes y año ===
+        // =====================================================
+        // FILTROS DE MES Y AÑO
+        // =====================================================
         $mes  = (int) ($this->request->getGet('mes') ?? date('n'));
         $anio = (int) ($this->request->getGet('anio') ?? date('Y'));
 
         if (!checkdate($mes, 1, $anio)) {
-            $mes  = (int) date('n');
-            $anio = (int) date('Y');
+            $mes  = date('n');
+            $anio = date('Y');
         }
 
-        $inicioMes = date('Y-m-01', strtotime("$anio-$mes-01"));
-        $finMes    = date('Y-m-t', strtotime("$anio-$mes-01"));
+        $inicioMes = "$anio-$mes-01";
+        $finMes    = date('Y-m-t', strtotime($inicioMes));
 
-        // === Estadísticas del mes ===
+        // =====================================================
+        // ESTADÍSTICAS DEL MES
+        // =====================================================
         $entradasMes = (float) ($loteEntradaModel
             ->where('fecha_entrada >=', $inicioMes)
             ->where('fecha_entrada <=', $finMes)
@@ -79,15 +77,21 @@ class Home extends BaseController
             ->selectSum('peso_neto_kg')
             ->first()['peso_neto_kg'] ?? 0);
 
-        // === Totales globales ===
+        // =====================================================
+        // TOTALES GLOBALES
+        // =====================================================
         $totalLotes = $loteEntradaModel->countAll() + $loteSalidaModel->countAll();
 
-        // === Lotes pendientes ===
+        // =====================================================
+        // LOTES PENDIENTES
+        // =====================================================
         $lotesPendientes = $loteEntradaModel
             ->whereNotIn('id', $loteSalidaModel->select('lote_entrada_id'))
             ->countAllResults(false);
 
-        // === Últimos movimientos (5 entradas + 5 salidas) ===
+        // =====================================================
+        // ÚLTIMOS MOVIMIENTOS (5 entradas + 5 salidas)
+        // =====================================================
         $ultimosMovimientos = $loteEntradaModel->db
             ->query("
                 (SELECT id, fecha_entrada AS fecha, peso_bruto_kg AS monto, 'Entrada' AS tipo
@@ -103,7 +107,9 @@ class Home extends BaseController
             ")
             ->getResultArray();
 
-        // === Renderizar vista ===
+        // =====================================================
+        // RENDERIZAR VISTA
+        // =====================================================
         return view('dashboard', [
             'currentPage'         => 'home',
             'username'            => $session->get('username'),
