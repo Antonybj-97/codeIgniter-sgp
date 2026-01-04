@@ -1,0 +1,18 @@
+# railway.toml
+[build]
+builder = "nixpacks"
+buildCommand = "composer install --no-dev --optimize-autoloader && php spark optimize && chmod -R 775 writable/"
+startCommand = "apache2-foreground"
+
+[build.args]
+NIXPACKS_PHP_VERSION = "8.3"
+NIXPACKS_PKGS = "php83 php83-apache2 php83-curl php83-gd php83-mbstring php83-mysqlnd php83-zip unzip"
+
+[[services]]
+type = "web"
+name = "codeigniter-app"
+
+[services]
+httpPort = 8080
+healthcheckPath = "/login"
+healthcheckTimeout = 30
